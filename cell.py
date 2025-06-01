@@ -1,4 +1,5 @@
 from window import Point, Line
+from time import sleep
 
 class Cell():
     def __init__(self, window = None):
@@ -47,3 +48,9 @@ class Cell():
         lineend_y = to_cell.__y1 + (to_cell.__y2 - to_cell.__y1) / 2
         if self.__win:
             self.__win.draw_line(Line(Point(linestart_x, linestart_y), Point(lineend_x, lineend_y)), color)
+        self.__animate()
+
+    def __animate(self):
+        if self.__win:
+            self.__win.redraw()
+            sleep(0.05)  # Adjust the sleep time to control the animation speed

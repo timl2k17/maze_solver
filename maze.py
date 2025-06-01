@@ -48,7 +48,7 @@ class Maze():
     def __animate(self):
         if self.__win:
             self.__win.redraw()
-            sleep(0.05)  # Adjust the sleep time to control the animation speed
+            sleep(0.02)  # Adjust the sleep time to control the animation speed
 
     def __break_entrance_and_exit(self):
         # Break the entrance and exit walls of the maze
@@ -96,3 +96,34 @@ class Maze():
                 self.__cells[i][j + 1].has_left_wall = False
                 self.__draw_cell(i, j + 1)
                 self.__break_walls_r(i, j + 1)
+
+    def __reset_cells_visited(self):
+        for row in self.__cells:
+            for cell in row:
+                cell.visited = False
+    
+    def solve(self):
+        self.__solve_r(0, 0)
+
+    def __solve_r(self, i, j):
+        if i < 0 or i >= self.__num_rows or j < 0 or j >= self.__num_cols:
+            return
+        cell = self.__cells[i][j]
+        if cell.visited:
+            return
+        cell.visited = True
+        if i == self.__num_rows - 1 and j == self.__num_cols - 1:
+            return True
+        if not cell.has_top_wall and self.__solve_r(i - 1, j):
+            cell.draw_move(self.__cells[i - 1][j])
+            return True
+        if not cell.has_bottom_wall and self.__solve_r(i + 1, j):
+            cell.draw_move(self.__cells[i + 1][j])
+            return True
+        if not cell.has_left_wall and self.__solve_r(i, j - 1):
+            cell.draw_move(self.__cells[i][j - 1])
+            return True
+        if not cell.has_right_wall and self.__solve_r(i, j + 1):
+            cell.draw_move(self.__cells[i][j + 1])
+            return True
+        return False
