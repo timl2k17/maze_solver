@@ -18,5 +18,7 @@ cell2.draw_move(cell3)
 win.draw_line(line2, "red")
 win.draw_line(line1, "black")
 '''
-maze = Maze(5, 5, 10, 20, 25, 25, win)
+maze = Maze(5, 5, 10, 20, 25, 25, win, 6)
+maze._Maze__break_entrance_and_exit()
+maze._Maze__break_walls_r(0, 0)
 win.wait_for_close()
